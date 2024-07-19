@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Flex, Box, Text, Button } from '@chakra-ui/react';
-import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -22,19 +21,7 @@ export const Banner = ({ purpose, title1, title2, desc1, desc2, buttonText, link
   </Flex>
 );
 
-const Home = ({ propertiesForSale, propertiesForRent, session }) => {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!session) {
-      router.push('login');
-    }
-  }, [session, router]);
-
-  if (!session) {
-    return <p>Loading...</p>; // Show a loading message or spinner while redirecting
-  }
-
+const Home = ({ propertiesForSale, propertiesForRent }) => {
   return (
     <Box>
       <Banner
@@ -69,24 +56,12 @@ const Home = ({ propertiesForSale, propertiesForRent, session }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false,
-      },
-    };
-  }
-
+export async function getServerSideProps() {
   const propertyForSale = await fetchApi(`${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-sale&hitsPerPage=6`);
   const propertyForRent = await fetchApi(`${baseUrl}/properties/list?locationExternalIDs=5002&purpose=for-rent&hitsPerPage=6`);
 
   return {
     props: {
-      session,
       propertiesForSale: propertyForSale?.hits,
       propertiesForRent: propertyForRent?.hits,
     },
