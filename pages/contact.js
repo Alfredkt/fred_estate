@@ -26,7 +26,7 @@ export default function Contact() {
         />
         <VStack spacing={4}>
           <Text fontSize="lg" color="gray.700">
-            Hello! I'm Alfred Kwesi Tawiah, the founder of Fred Estate. You can reach out to me through the following contact details.
+            Hello! I&apos;m Alfred Kwesi Tawiah, the founder of Fred Estate. You can reach out to me through the following contact details.
           </Text>
           <Text fontSize="lg" color="gray.700">
             <strong>Email:</strong> alfredtawia2244@gmail.com
